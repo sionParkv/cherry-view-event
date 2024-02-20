@@ -77,10 +77,10 @@ const Reservation = () => {
       .then((response) => {
         console.log(response.data);
         alert("인증번호가 전송 되었습니다.");
+        disableText(true);
       })
       .catch((error) => {
         console.log("Error", error);
-        alert(error.response.data.message);
       });
   };
 
@@ -97,17 +97,12 @@ const Reservation = () => {
         alert("인증 되었습니다.");
       })
       .catch((error) => {
-        alert(error.response.data.message);
+        if (error.response.data.message) {
+          alert(error.response.data.message);
+        }
         console.log("Error", error);
         console.log(values.number);
       });
-  };
-
-  // 초를 시:분:초 형태로 변환하는 함수
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
   };
 
   // 체크박스
@@ -185,7 +180,9 @@ const Reservation = () => {
       })
       .catch((error) => {
         console.log("Error", error);
-        alert(error.response.data.message);
+        if (error.response.data.message) {
+          alert(error.response.data.message);
+        }
       });
   };
 
@@ -225,9 +222,15 @@ const Reservation = () => {
       })
       .catch((error) => {
         console.log(error);
-        alert(error.response.data.email);
-        alert(error.response.data.contact);
-        alert(error.response.data.nickname);
+        if (error.response.data.email) {
+          alert(error.response.data.email);
+        }
+        if (error.response.data.contact) {
+          alert(error.response.data.contact);
+        }
+        if (error.response.data.nickname) {
+          alert(error.response.data.nickname);
+        }
       });
   };
 
@@ -315,18 +318,17 @@ const Reservation = () => {
                 />
                 <Button onClick={handleStart}>인증받기</Button>
               </Box>
-              <Box className="EmailBox">
-                <TextField
-                  onChange={handleChange}
-                  name="number"
-                  value={values.number}
-                  InputProps={{
-                    endAdornment: <T>{formatTime(time)}</T>,
-                  }}
-                  placeholder="인증번호"
-                />
-                <Button onClick={handleEnd}>인증하기</Button>
-              </Box>
+              {!disableText && (
+                <Box className="EmailBox">
+                  <TextField
+                    onChange={handleChange}
+                    name="number"
+                    value={values.number}
+                    placeholder="인증번호"
+                  />
+                  <Button onClick={handleEnd}>인증하기</Button>
+                </Box>
+              )}
 
               <FormGroup className="AgreeBox">
                 <FormControlLabel
