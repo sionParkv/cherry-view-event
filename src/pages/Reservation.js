@@ -24,6 +24,7 @@ const Reservation = () => {
     email: "",
     contact: "",
     nickname: "",
+    number: "",
     agree_promotion_email: false,
     agree_promotion_sms: false,
   });
@@ -41,8 +42,10 @@ const Reservation = () => {
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [validPassword, setValidPassword] = useState(true);
 
-  // 인증번호 상태
+  // 이메일 중복 상태
   const [showButton, setShowButton] = useState(true);
+  // 인증 상태
+  const [disableText, setDisableText] = useState(true);
 
   // 인증번호
   const [time, setTime] = useState(180); // 초 단위로 초기값 설정 (3분)
@@ -65,7 +68,7 @@ const Reservation = () => {
     return () => clearInterval(intervalId);
   }, [isActive, time]);
 
-  // 인증번호 api
+  // 인증받기 api
   const handleStart = () => {
     setIsActive(true);
 
@@ -73,20 +76,39 @@ const Reservation = () => {
       .post("http://52.78.42.11/api/verifyNumbers", { contact: values.contact })
       .then((response) => {
         console.log(response.data);
-        alert("인증 되었습니다.");
+        alert("인증번호가 전송 되었습니다.");
       })
       .catch((error) => {
         console.log("Error", error);
-        console.log(values.contact);
+        alert(error.response.data.message);
+      });
+  };
+
+  // 인증하기 api
+  const handleEnd = () => {
+    axios
+      .patch("http://52.78.42.11/api/verifyNumbers", {
+        contact: values.contact,
+        number: values.number,
+      })
+      .then((response) => {
+        console.log(response.data);
+        setDisableText(false);
+        alert("인증 되었습니다.");
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+        console.log("Error", error);
+        console.log(values.number);
       });
   };
 
   // 초를 시:분:초 형태로 변환하는 함수
-  // const formatTime = (seconds) => {
-  //   const minutes = Math.floor(seconds / 60);
-  //   const remainingSeconds = seconds % 60;
-  //   return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
-  // };
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+  };
 
   // 체크박스
   const [selectAll, setSelectAll] = useState(false);
@@ -163,7 +185,7 @@ const Reservation = () => {
       })
       .catch((error) => {
         console.log("Error", error);
-        console.log(values.email);
+        alert(error.response.data.message);
       });
   };
 
@@ -186,6 +208,8 @@ const Reservation = () => {
       alert("닉네임을 입력해주세요");
     } else if (values.contact === "") {
       alert("연락처를 입력해주세요");
+    } else if (disableText) {
+      alert("휴대전화 인증을 완료해 주세요");
     }
     axios
       .post("http://52.78.42.11/api/users", {
@@ -200,7 +224,10 @@ const Reservation = () => {
         navigate("/success");
       })
       .catch((error) => {
-        console.log("Error", error);
+        console.log(error);
+        alert(error.response.data.email);
+        alert(error.response.data.contact);
+        alert(error.response.data.nickname);
       });
   };
 
@@ -233,6 +260,7 @@ const Reservation = () => {
                   name="email"
                   value={values.email}
                   placeholder="이메일"
+                  disabled={!showButton}
                 />
                 <Button
                   style={{ display: showButton ? "block" : "none" }}
@@ -283,16 +311,23 @@ const Reservation = () => {
                   name="contact"
                   value={values.contact}
                   placeholder="연락처"
+                  disabled={!disableText}
                 />
                 <Button onClick={handleStart}>인증받기</Button>
               </Box>
-              {/* 
-              <TextField
-                InputProps={{
-                  endAdornment: <T>{formatTime(time)}</T>,
-                }}
-                placeholder="인증번호"
-              /> */}
+              <Box className="EmailBox">
+                <TextField
+                  onChange={handleChange}
+                  name="number"
+                  value={values.number}
+                  InputProps={{
+                    endAdornment: <T>{formatTime(time)}</T>,
+                  }}
+                  placeholder="인증번호"
+                />
+                <Button onClick={handleEnd}>인증하기</Button>
+              </Box>
+
               <FormGroup className="AgreeBox">
                 <FormControlLabel
                   className="AllAgree"
