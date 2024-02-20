@@ -40,12 +40,12 @@ const Reservation = () => {
   const [password, setPassword] = useState("");
   const [password_confirmation, setPassword_confirmation] = useState("");
   const [passwordsMatch, setPasswordsMatch] = useState(true);
-  const [validPassword, setValidPassword] = useState(true);
 
   // 이메일 중복 상태
   const [showButton, setShowButton] = useState(true);
   // 인증 상태
-  const [disableText, setDisableText] = useState(true);
+  const [disableText, setDisableText] = useState(false);
+  const [disableText2, setDisableText2] = useState(true);
 
   // 인증번호
   const [time, setTime] = useState(180); // 초 단위로 초기값 설정 (3분)
@@ -77,7 +77,7 @@ const Reservation = () => {
       .then((response) => {
         console.log(response.data);
         alert("인증번호가 전송 되었습니다.");
-        disableText(true);
+        setDisableText(true);
       })
       .catch((error) => {
         console.log("Error", error);
@@ -94,6 +94,7 @@ const Reservation = () => {
       .then((response) => {
         console.log(response.data);
         setDisableText(false);
+        setDisableText2(false);
         alert("인증 되었습니다.");
       })
       .catch((error) => {
@@ -137,11 +138,6 @@ const Reservation = () => {
     }));
   };
 
-  const validatePassword = (password) => {
-    // 비밀번호가 8자리 이상이고 영문과 숫자가 혼합되어 있는지 확인하는 정규표현식
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    return passwordRegex.test(password);
-  };
   // 비밀번호
   const handlePasswordChange = (e) => {
     const newPassword = e.target.value;
@@ -151,7 +147,6 @@ const Reservation = () => {
     } else {
       setPasswordsMatch(true);
     }
-    setValidPassword(validatePassword(newPassword));
   };
 
   // 비밀번호 확인
@@ -189,11 +184,7 @@ const Reservation = () => {
   // 응모하기 버튼
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (!validPassword || password === "") {
-      alert("비밀번호는 8자리 이상, 영문과 숫자 조합으로 입력해야 합니다.");
-      console.log("????", password);
-    } else if (
+    if (
       !checkboxValues.checkbox1 ||
       !checkboxValues.checkbox2 ||
       !checkboxValues.checkbox3
@@ -205,6 +196,8 @@ const Reservation = () => {
       alert("닉네임을 입력해주세요");
     } else if (values.contact === "") {
       alert("연락처를 입력해주세요");
+    } else if (password === "") {
+      alert("비밀번호를 입력해주세요");
     } else if (disableText) {
       alert("휴대전화 인증을 완료해 주세요");
     }
@@ -314,11 +307,11 @@ const Reservation = () => {
                   name="contact"
                   value={values.contact}
                   placeholder="연락처"
-                  disabled={!disableText}
+                  disabled={!disableText2}
                 />
                 <Button onClick={handleStart}>인증받기</Button>
               </Box>
-              {!disableText && (
+              {disableText ? (
                 <Box className="EmailBox">
                   <TextField
                     onChange={handleChange}
@@ -328,6 +321,8 @@ const Reservation = () => {
                   />
                   <Button onClick={handleEnd}>인증하기</Button>
                 </Box>
+              ) : (
+                <Box></Box>
               )}
 
               <FormGroup className="AgreeBox">
