@@ -30,7 +30,8 @@
       .TopContent {
         position: relative;
         width: 100%;
-        .MainImg {
+        .MainImg,
+        .BottomClick {
           display: none;
         }
 
@@ -38,10 +39,10 @@
           width: 100%;
           display: block;
         }
+      }
 
-        .BottomClick {
-          display: none;
-        }
+      .MobileImg {
+        width: 100%;
       }
 
       .BottomBox {
@@ -113,8 +114,12 @@
                 justify-content: space-between;
                 align-items: center;
 
+                .MuiFormControlLabel-root {
+                  width: 85%;
+                }
+
                 .DetailText {
-                  width: 20%;
+                  width: 15%;
                   text-decoration: underline;
                   font-size: 12px;
                   font-weight: 500;
@@ -295,7 +300,6 @@
                 align-items: center;
 
                 .DetailText {
-                  width: 20%;
                   text-decoration: underline;
                   font-size: 12px;
                   font-weight: 500;

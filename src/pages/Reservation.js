@@ -41,6 +41,9 @@ const Reservation = () => {
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [validPassword, setValidPassword] = useState(true);
 
+  // 인증번호 상태
+  const [showButton, setShowButton] = useState(true);
+
   // 인증번호
   const [time, setTime] = useState(180); // 초 단위로 초기값 설정 (3분)
   const [isActive, setIsActive] = useState(false);
@@ -67,9 +70,10 @@ const Reservation = () => {
     setIsActive(true);
 
     axios
-      .post("http://52.78.42.11/api/verifyNumbers", values.contact)
+      .post("http://52.78.42.11/api/verifyNumbers", { contact: values.contact })
       .then((response) => {
         console.log(response.data);
+        alert("인증 되었습니다.");
       })
       .catch((error) => {
         console.log("Error", error);
@@ -78,11 +82,11 @@ const Reservation = () => {
   };
 
   // 초를 시:분:초 형태로 변환하는 함수
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
-  };
+  // const formatTime = (seconds) => {
+  //   const minutes = Math.floor(seconds / 60);
+  //   const remainingSeconds = seconds % 60;
+  //   return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+  // };
 
   // 체크박스
   const [selectAll, setSelectAll] = useState(false);
@@ -147,11 +151,15 @@ const Reservation = () => {
   // 아이디 중복 검사
   const checkDuplicate = (e) => {
     e.preventDefault();
+    console.log("123123", values.email);
 
     axios
-      .post("http://52.78.42.11/api/users/checkDuplicate", values.email)
+      .post("http://52.78.42.11/api/users/checkDuplicate", {
+        email: values.email,
+      })
       .then((response) => {
         console.log(response.data);
+        setShowButton(false);
       })
       .catch((error) => {
         console.log("Error", error);
@@ -163,28 +171,36 @@ const Reservation = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const data = {
-      ...values,
-      password,
-      password_confirmation,
-    };
-
     if (!validPassword || password === "") {
       alert("비밀번호는 8자리 이상, 영문과 숫자 조합으로 입력해야 합니다.");
       console.log("????", password);
-    } else {
-      navigate("/success");
+    } else if (
+      !checkboxValues.checkbox1 ||
+      !checkboxValues.checkbox2 ||
+      !checkboxValues.checkbox3
+    ) {
+      alert("필수요소에 체크 해야 합니다.");
+    } else if (showButton) {
+      alert("이메일 인증을 완료해야 합니다");
+    } else if (values.nickname === "") {
+      alert("닉네임을 입력해주세요");
+    } else if (values.contact === "") {
+      alert("연락처를 입력해주세요");
     }
-
     axios
-      .post("http://52.78.42.11/api/users", data)
+      .post("http://52.78.42.11/api/users", {
+        email: values.email,
+        contact: values.contact,
+        nickname: values.email,
+        password: password,
+        password_confirmation: password_confirmation,
+      })
       .then((response) => {
         console.log(response.data);
-        console.log(data);
+        navigate("/success");
       })
       .catch((error) => {
         console.log("Error", error);
-        console.log(data);
       });
   };
 
@@ -218,8 +234,18 @@ const Reservation = () => {
                   value={values.email}
                   placeholder="이메일"
                 />
-                <Button onClick={checkDuplicate}>중복확인</Button>
+                <Button
+                  style={{ display: showButton ? "block" : "none" }}
+                  onClick={checkDuplicate}
+                >
+                  중복확인
+                </Button>
               </Box>
+              {!showButton && (
+                <T className="Condition" style={{ color: "#1968ff" }}>
+                  인증이 완료 되었습니다.
+                </T>
+              )}
               <TextField
                 onChange={handleChange}
                 name="nickname"
@@ -260,13 +286,13 @@ const Reservation = () => {
                 />
                 <Button onClick={handleStart}>인증받기</Button>
               </Box>
-
+              {/* 
               <TextField
                 InputProps={{
                   endAdornment: <T>{formatTime(time)}</T>,
                 }}
                 placeholder="인증번호"
-              />
+              /> */}
               <FormGroup className="AgreeBox">
                 <FormControlLabel
                   className="AllAgree"
