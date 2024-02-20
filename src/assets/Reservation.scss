@@ -1,0 +1,362 @@
+@import "common";
+
+.css-1oqqzyl-MuiContainer-root {
+  max-width: 100% !important;
+}
+
+.Reservation {
+  width: 100%;
+
+  .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.Mui-checked {
+    color: #ffc032;
+  }
+
+  p,
+  span,
+  div,
+  button {
+    font-family: Pretendard;
+  }
+
+  .red {
+    color: #cc0011;
+  }
+
+  .MainBox {
+    width: 100%;
+
+    // 모바일
+    @media (max-width: 768px) {
+      .TopContent {
+        position: relative;
+        width: 100%;
+        .MainImg {
+          display: none;
+        }
+
+        .MMainImg {
+          width: 100%;
+          display: block;
+        }
+
+        .BottomClick {
+          display: none;
+        }
+      }
+
+      .BottomBox {
+        width: 100%;
+        display: flex;
+
+        .SubImg {
+          display: none;
+        }
+
+        .applicationBox {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          text-align: center;
+          padding: 10% 5% 10% 5%;
+
+          .MainText {
+            font-size: 36px;
+            font-weight: 800;
+            color: #222;
+            line-height: 1.33;
+          }
+
+          .SubmitBox {
+            width: 100%;
+            padding: 40px 0 80px 0;
+
+            .MuiFormControl-root {
+              width: 100%;
+              margin-bottom: 16px;
+            }
+
+            .EmailBox {
+              display: flex;
+              gap: 8px;
+
+              button {
+                width: 100px;
+                border-radius: 8px;
+                background-color: #ffc043;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 15px;
+                font-weight: bold;
+                color: #202020;
+                margin-bottom: 16px;
+              }
+            }
+
+            .Condition,
+            .Error {
+              text-align: start;
+              font-size: 14px;
+              line-height: 2.29;
+              margin-top: -16px;
+            }
+
+            .AgreeBox {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              text-align: start;
+              padding: 30px 0 30px 0;
+
+              .DetailBox {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .DetailText {
+                  width: 20%;
+                  text-decoration: underline;
+                  font-size: 12px;
+                  font-weight: 500;
+                  color: #989898;
+                }
+              }
+
+              .Section {
+                width: 100%;
+                height: 1px;
+                background-color: #ededed;
+              }
+
+              .AllAgree {
+                .MuiTypography-root {
+                  font-size: 16px;
+                  font-weight: bold;
+                  color: #000;
+                }
+              }
+
+              .Agree {
+                .MuiTypography-root {
+                  font-size: 14px;
+                  font-weight: 500;
+                  color: #989898;
+                }
+              }
+
+              .Agree2 {
+                width: 80%;
+                padding-left: 7%;
+
+                .MuiTypography-root {
+                  font-size: 14px;
+                  font-weight: 500;
+                  color: #989898;
+                }
+              }
+            }
+
+            .JoinButton {
+              width: 100%;
+              height: 64px;
+              border-radius: 8px;
+              background-color: #ffc032;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-size: 20px;
+              font-weight: bold;
+              color: #202020;
+            }
+          }
+        }
+      }
+    }
+
+    // 웹
+    @media (min-width: 769px) {
+      .TopContent {
+        position: relative;
+        width: 100%;
+        .MMainImg {
+          display: none;
+        }
+
+        .MainImg {
+          width: 100%;
+          display: block;
+        }
+
+        @keyframes moveUpDown {
+          0% {
+            transform: translateY(0);
+          }
+          100% {
+            transform: translateY(-20px); // 상자가 위로 20px 이동
+          }
+        }
+
+        .BottomClick {
+          left: 44%;
+          position: absolute;
+          bottom: 0;
+          width: 10%;
+          height: 15%;
+          background-color: #cc0212;
+          border-top-left-radius: 40px;
+          border-top-right-radius: 40px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+
+          p {
+            font-size: 35px;
+            font-weight: 800;
+            color: #fff;
+          }
+
+          svg {
+            width: 52px;
+            height: 52px;
+            color: #fff;
+            animation: moveUpDown 1s infinite alternate;
+          }
+        }
+      }
+
+      .BottomBox {
+        width: 100%;
+        display: flex;
+
+        .SubImg {
+          width: 50%;
+        }
+
+        .applicationBox {
+          width: 50%;
+          display: flex;
+          flex-direction: column;
+          text-align: center;
+          padding: 88px 15% 88px 15%;
+
+          .MainText {
+            font-size: 36px;
+            font-weight: 800;
+            color: #222;
+            line-height: 1.33;
+          }
+
+          .SubmitBox {
+            width: 100%;
+            padding: 40px 0 80px 0;
+
+            .MuiFormControl-root {
+              width: 100%;
+              margin-bottom: 16px;
+            }
+
+            .EmailBox {
+              display: flex;
+              gap: 8px;
+
+              button {
+                width: 100px;
+                border-radius: 8px;
+                background-color: #ffc043;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 15px;
+                font-weight: bold;
+                color: #202020;
+                margin-bottom: 16px;
+              }
+            }
+
+            .Condition,
+            .Error {
+              text-align: start;
+              font-size: 14px;
+              line-height: 2.29;
+              margin-top: -16px;
+            }
+
+            .AgreeBox {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              text-align: start;
+              padding: 30px 0 30px 0;
+
+              .DetailBox {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .DetailText {
+                  width: 20%;
+                  text-decoration: underline;
+                  font-size: 12px;
+                  font-weight: 500;
+                  color: #989898;
+                }
+              }
+
+              .Section {
+                width: 100%;
+                height: 1px;
+                background-color: #ededed;
+              }
+
+              .AllAgree {
+                .MuiTypography-root {
+                  font-size: 16px;
+                  font-weight: bold;
+                  color: #000;
+                }
+              }
+
+              .Agree {
+                width: 80%;
+
+                .MuiTypography-root {
+                  font-size: 14px;
+                  font-weight: 500;
+                  color: #989898;
+                }
+              }
+              .Agree2 {
+                width: 80%;
+                padding-left: 7%;
+
+                .MuiTypography-root {
+                  font-size: 14px;
+                  font-weight: 500;
+                  color: #989898;
+                }
+              }
+            }
+
+            .JoinButton {
+              width: 100%;
+              height: 64px;
+              border-radius: 8px;
+              background-color: #ffc032;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-size: 20px;
+              font-weight: bold;
+              color: #202020;
+            }
+          }
+        }
+      }
+
+      .MobileImg {
+        display: none;
+      }
+    }
+  }
+}
