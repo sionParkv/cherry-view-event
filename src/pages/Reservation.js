@@ -25,8 +25,6 @@ const Reservation = () => {
     contact: "",
     nickname: "",
     number: "",
-    agree_promotion_email: false,
-    agree_promotion_sms: false,
   });
 
   const handleChange = (event) => {
@@ -208,12 +206,16 @@ const Reservation = () => {
         nickname: values.email,
         password: password,
         password_confirmation: password_confirmation,
+        agree_promotion_email: checkboxValues.checkbox5,
+        agree_promotion_sms: checkboxValues.checkbox6,
       })
       .then((response) => {
         console.log(response.data);
+        console.log("values", checkboxValues);
         navigate("/success");
       })
       .catch((error) => {
+        console.log("values", checkboxValues);
         console.log(error);
         if (error.response.data.email) {
           alert(error.response.data.email);
