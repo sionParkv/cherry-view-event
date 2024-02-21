@@ -71,7 +71,7 @@ const Reservation = () => {
     setIsActive(true);
 
     axios
-      .post("https://api.cherryview.co.kr/api/verifyNumbers", {
+      .post("https://api.cherivu.co.kr/api/verifyNumbers", {
         contact: values.contact,
       })
       .then((response) => {
@@ -87,7 +87,7 @@ const Reservation = () => {
   // 인증하기 api
   const handleEnd = () => {
     axios
-      .patch("https://api.cherryview.co.kr/api/verifyNumbers", {
+      .patch("https://api.cherivu.co.kr/api/verifyNumbers", {
         contact: values.contact,
         number: values.number,
       })
@@ -166,7 +166,7 @@ const Reservation = () => {
     console.log("123123", values.email);
 
     axios
-      .post("https://api.cherryview.co.kr/api/users/checkDuplicate", {
+      .post("https://api.cherivu.co.kr/api/users/checkDuplicate", {
         email: values.email,
       })
       .then((response) => {
@@ -202,7 +202,7 @@ const Reservation = () => {
       alert("휴대전화 인증을 완료해 주세요");
     }
     axios
-      .post("https://api.cherryview.co.kr/api/users", {
+      .post("https://api.cherivu.co.kr/api/users", {
         email: values.email,
         contact: values.contact,
         nickname: values.email,
