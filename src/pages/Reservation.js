@@ -166,7 +166,7 @@ const Reservation = () => {
     console.log("123123", values.email);
 
     axios
-      .post("https://cherivu.co.kr/api/users/checkDuplicate", {
+      .post("https://api.cherivu.co.kr/api/users/checkDuplicate", {
         email: values.email,
       })
       .then((response) => {
